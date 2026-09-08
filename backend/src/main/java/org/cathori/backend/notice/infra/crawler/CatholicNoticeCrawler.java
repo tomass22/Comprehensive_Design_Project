@@ -15,7 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -23,9 +25,13 @@ import java.util.stream.Collectors;
 @Component
 public class CatholicNoticeCrawler implements CrawlerPort {
 
+    private static final int MAX_LIST_PAGES = 3;
+    private static final int ARTICLES_PER_PAGE = 10;
 
     /**
      * 가톨릭대 공지사항 목록 페이지를 크롤링해 새 공지를 수집한다.
+     * 최신 공지가 1페이지에만 몰려있지 않을 수 있어 최대 {@value #MAX_LIST_PAGES}페이지까지 확인하되,
+     * 한 페이지에 새 공지가 하나도 없으면 이후 페이지는 더 오래된 공지뿐이라고 보고 조회를 중단한다.
      *
      * @param sourceType    공지 출처 유형 (예: "MAIN")
      * @param sourceId      학과 공지의 경우 학과 코드, 메인 공지는 null
@@ -36,17 +42,68 @@ public class CatholicNoticeCrawler implements CrawlerPort {
     public List<CrawledNotice> crawl(String sourceType, String sourceId, int lastArticleNo) {
         String targetUrl = getCrawlTargetUrl(sourceType, sourceId);
         List<CrawledNotice> result = new ArrayList<>();
+        Set<String> seenArticleNo = new HashSet<>();
 
-        Document targetPageDoc;
-        try {
-            targetPageDoc = Jsoup.connect(targetUrl).get();
-            log.info("HTML 수신 성공 - sourceType: {}, sourceId: {}, 길이: {}", sourceType, sourceId, targetPageDoc.html().length());
-        } catch (IOException e) {
-            log.warn("크롤링 연결 실패: {}", e.getMessage());
-            return result;
+        for (int page = 1; page <= MAX_LIST_PAGES; page++) {
+            Elements rows = fetchListRows(targetUrl, sourceType, sourceId, page);
+            if (rows == null) break;
+
+            boolean foundNewArticle = collectNoticesFromRows(
+                    rows, targetUrl, sourceType, sourceId, lastArticleNo, seenArticleNo, result);
+
+            if (lastArticleNo > 0 && !foundNewArticle) break;
         }
 
-        Elements rows = targetPageDoc.select("table tbody tr");
+        return result;
+    }
+
+    /**
+     * 공지 목록 페이지 하나를 요청해 행(tr) 목록을 반환한다.
+     * page가 1이면 기존과 동일하게 targetUrl 그대로 요청하고,
+     * 그 이상이면 article.offset 파라미터를 붙여 다음 페이지를 요청한다.
+     * 요청 실패 시 null 반환.
+     *
+     * @param targetUrl  공지 목록 페이지 기본 URL
+     * @param sourceType 공지 출처 유형
+     * @param sourceId   학과 코드 또는 null
+     * @param page       조회할 페이지 번호 (1부터 시작)
+     * @return tr 요소 목록. 요청 실패 시 null
+     */
+    private Elements fetchListRows(String targetUrl, String sourceType, String sourceId, int page) {
+        String pageUrl = page == 1 ? targetUrl : buildPageUrl(targetUrl, page);
+
+        try {
+            Document targetPageDoc = Jsoup.connect(pageUrl).get();
+            log.info("HTML 수신 성공 - sourceType: {}, sourceId: {}, page: {}, 길이: {}",
+                    sourceType, sourceId, page, targetPageDoc.html().length());
+            return targetPageDoc.select("table tbody tr");
+        } catch (IOException e) {
+            log.warn("크롤링 연결 실패 (page={}): {}", page, e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 목록 페이지의 offset 기반 페이지네이션 URL을 만든다.
+     * 예: page=2 -> "...notice.do?mode=list&articleLimit=10&article.offset=10"
+     *
+     * @param targetUrl 공지 목록 페이지 기본 URL
+     * @param page      조회할 페이지 번호 (1부터 시작)
+     * @return 페이지네이션 쿼리가 포함된 URL
+     */
+    private String buildPageUrl(String targetUrl, int page) {
+        int offset = (page - 1) * ARTICLES_PER_PAGE;
+        return targetUrl + "?mode=list&articleLimit=" + ARTICLES_PER_PAGE + "&article.offset=" + offset;
+    }
+
+    /**
+     * 목록 페이지의 tr 행들을 파싱해 새 공지를 result에 추가한다.
+     *
+     * @return 이 페이지에서 lastArticleNo보다 큰(=새로운) 공지를 하나라도 찾았으면 true
+     */
+    private boolean collectNoticesFromRows(Elements rows, String targetUrl, String sourceType, String sourceId,
+                                            int lastArticleNo, Set<String> seenArticleNo, List<CrawledNotice> result) {
+        boolean foundNewArticle = false;
 
         for (Element row : rows) {
             try {
@@ -54,7 +111,9 @@ public class CatholicNoticeCrawler implements CrawlerPort {
                 if (parsed == null) continue;
 
                 int articleNo = Integer.parseInt(parsed.articleNo());
-                if (lastArticleNo > 0 && articleNo <= lastArticleNo) break;
+                if (lastArticleNo > 0 && articleNo <= lastArticleNo) continue;
+                foundNewArticle = true;
+                if (!seenArticleNo.add(parsed.articleNo())) continue;
 
                 NoticeDetails detail = crawlNoticeDetail(parsed.noticeDetailsUrl());
                 result.add(CrawledNotice.builder()
@@ -77,7 +136,7 @@ public class CatholicNoticeCrawler implements CrawlerPort {
             }
         }
 
-        return result;
+        return foundNewArticle;
     }
     /**
      * tr 한 행을 파싱해 NoticeRow로 변환한다.
