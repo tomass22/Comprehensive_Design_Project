@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -23,10 +24,18 @@ public class NoticeService {
     private final NoticeSummaryUpdater noticeSummaryUpdater;
 
     public List<CrawledNotice> crawl(String sourceType, String sourceId) {
-        int lastArticleNo = noticeRepository.findMaxArticleNo(sourceType, sourceId)
-                .orElse(0);
+        List<NoticeCandidate> candidates = crawlerPort.listCandidates(sourceType, sourceId);
+        if (candidates.isEmpty()) return List.of();
 
-        return crawlerPort.crawl(sourceType, sourceId, lastArticleNo);
+        List<String> articleNos = candidates.stream()
+                .map(NoticeCandidate::getArticleNo)
+                .toList();
+        Set<String> existingArticleNos = noticeRepository.findExistingArticleNos(sourceType, sourceId, articleNos);
+
+        return candidates.stream()
+                .filter(candidate -> !existingArticleNos.contains(candidate.getArticleNo()))
+                .map(candidate -> crawlerPort.crawlDetail(sourceType, sourceId, candidate))
+                .toList();
     }
 
     @Transactional
