@@ -15,7 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -47,6 +49,7 @@ public class CatholicNoticeCrawler implements CrawlerPort {
         }
 
         Elements rows = targetPageDoc.select("table tbody tr");
+        Set<String> seenArticleNo = new HashSet<>();
 
         for (Element row : rows) {
             try {
@@ -54,7 +57,8 @@ public class CatholicNoticeCrawler implements CrawlerPort {
                 if (parsed == null) continue;
 
                 int articleNo = Integer.parseInt(parsed.articleNo());
-                if (lastArticleNo > 0 && articleNo <= lastArticleNo) break;
+                if (lastArticleNo > 0 && articleNo <= lastArticleNo) continue;
+                if (!seenArticleNo.add(parsed.articleNo())) continue;
 
                 NoticeDetails detail = crawlNoticeDetail(parsed.noticeDetailsUrl());
                 result.add(CrawledNotice.builder()
