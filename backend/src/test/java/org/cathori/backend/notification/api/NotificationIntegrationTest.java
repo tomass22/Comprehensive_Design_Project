@@ -2,7 +2,7 @@ package org.cathori.backend.notification.api;
 
 import org.cathori.backend.IntegrationTestBase;
 import org.cathori.backend.notification.infra.AlertHistoryJpaRepository;
-import org.cathori.backend.notice.application.CrawledNotice;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
 import org.cathori.backend.notice.model.Notice;
 import org.cathori.backend.notice.model.NoticeRepository;
 import org.cathori.backend.security.JwtUtil;

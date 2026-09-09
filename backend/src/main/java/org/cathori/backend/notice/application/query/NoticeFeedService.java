@@ -1,8 +1,9 @@
-package org.cathori.backend.notice.application;
+package org.cathori.backend.notice.application.query;
 
 import lombok.RequiredArgsConstructor;
 import org.cathori.backend.bookmark.infra.BookmarkJpaRepository;
 import org.cathori.backend.common.exception.BusinessException;
+import org.cathori.backend.notice.application.*;
 import org.cathori.backend.tag.domain.Tag;
 import org.cathori.backend.tag.domain.TagRepository;
 import org.cathori.backend.notice.api.dto.NoticeFeedItem;
@@ -15,7 +16,7 @@ import org.cathori.backend.notice.model.NoticeRepository;
 import org.cathori.backend.user.UserErrorCode;
 import org.cathori.backend.user.domain.User;
 import org.cathori.backend.user.domain.UserRepository;
-import org.cathori.backend.notice.infra.crawler.source.DepartmentSource;
+import org.cathori.backend.notice.infra.crawling.source.DepartmentSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

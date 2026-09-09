@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.application;
+package org.cathori.backend.notice.application.crawling;
 
 import lombok.Builder;
 import lombok.Getter;

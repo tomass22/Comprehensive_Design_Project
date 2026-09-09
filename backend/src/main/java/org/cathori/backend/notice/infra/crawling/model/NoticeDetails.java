@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.infra.crawler.format;
+package org.cathori.backend.notice.infra.crawling.model;
 
 import java.util.List;
 

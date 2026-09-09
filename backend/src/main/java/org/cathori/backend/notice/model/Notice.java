@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.cathori.backend.notice.application.CrawledNotice;
-import org.cathori.backend.notice.infra.ai.AiSummaryResult;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
+import org.cathori.backend.notice.infra.summarization.AiSummaryResult;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 

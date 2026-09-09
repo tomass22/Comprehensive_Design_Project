@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.infra.ai;
+package org.cathori.backend.notice.infra.summarization;
 
 import org.cathori.backend.notice.application.AiPort;
 import org.springframework.beans.factory.annotation.Value;

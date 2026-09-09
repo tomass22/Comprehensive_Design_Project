@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.infra.ai;
+package org.cathori.backend.notice.infra.summarization;
 
 import java.util.List;
 

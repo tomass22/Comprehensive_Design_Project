@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.infra.crawler.source;
+package org.cathori.backend.notice.infra.crawling.source;
 
 public enum DepartmentSource {
 

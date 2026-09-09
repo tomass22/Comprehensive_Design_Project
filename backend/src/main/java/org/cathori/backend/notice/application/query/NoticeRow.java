@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.application;
+package org.cathori.backend.notice.application.query;
 
 import java.time.LocalDate;
 

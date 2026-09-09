@@ -1,7 +1,7 @@
-package org.cathori.backend.notice.infra;
+package org.cathori.backend.notice.infra.summarization;
 
 import lombok.RequiredArgsConstructor;
-import org.cathori.backend.notice.application.NoticeService;
+import org.cathori.backend.notice.application.crawling.NoticeService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

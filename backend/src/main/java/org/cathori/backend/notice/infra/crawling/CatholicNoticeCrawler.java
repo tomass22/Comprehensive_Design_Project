@@ -1,13 +1,13 @@
-package org.cathori.backend.notice.infra.crawler;
+package org.cathori.backend.notice.infra.crawling;
 
 import lombok.extern.slf4j.Slf4j;
-import org.cathori.backend.notice.application.CrawledNotice;
-import org.cathori.backend.notice.application.CrawlerPort;
-import org.cathori.backend.notice.application.NoticeCandidate;
-import org.cathori.backend.notice.infra.crawler.format.NoticeDetails;
-import org.cathori.backend.notice.infra.crawler.format.NoticeRow;
-import org.cathori.backend.notice.infra.crawler.source.DepartmentSource;
-import org.cathori.backend.notice.infra.crawler.source.MainSource;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
+import org.cathori.backend.notice.application.crawling.CrawlerPort;
+import org.cathori.backend.notice.application.crawling.NoticeCandidate;
+import org.cathori.backend.notice.infra.crawling.model.NoticeDetails;
+import org.cathori.backend.notice.infra.crawling.model.NoticeRow;
+import org.cathori.backend.notice.infra.crawling.source.DepartmentSource;
+import org.cathori.backend.notice.infra.crawling.source.MainSource;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

@@ -1,7 +1,7 @@
 package org.cathori.backend.notice.application;
 
 
-import org.cathori.backend.notice.infra.ai.AiSummaryResult;
+import org.cathori.backend.notice.infra.summarization.AiSummaryResult;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.application;
+package org.cathori.backend.notice.application.query;
 
 /**
  * 공지 키워드 검색 유스케이스의 입력 파라미터.
