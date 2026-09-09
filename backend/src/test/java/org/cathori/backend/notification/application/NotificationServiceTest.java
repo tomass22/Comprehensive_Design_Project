@@ -6,7 +6,7 @@ import org.cathori.backend.notification.api.dto.NotificationListResponse;
 import org.cathori.backend.notification.application.inbox.NotificationService;
 import org.cathori.backend.notification.infra.AlertHistoryJpaRepository;
 import org.cathori.backend.common.exception.BusinessException;
-import org.cathori.backend.notice.application.CrawledNotice;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
 import org.cathori.backend.notice.model.Notice;
 import org.cathori.backend.notice.model.NoticeRepository;
 import org.cathori.backend.notification.application.push.PushNotificationPort;

@@ -1,9 +1,9 @@
 package org.cathori.backend.notice.infra.crawler;
 
 import lombok.extern.slf4j.Slf4j;
-import org.cathori.backend.notice.application.CrawledNotice;
-import org.cathori.backend.notice.application.CrawlerPort;
-import org.cathori.backend.notice.application.NoticeCandidate;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
+import org.cathori.backend.notice.application.crawling.CrawlerPort;
+import org.cathori.backend.notice.application.crawling.NoticeCandidate;
 import org.cathori.backend.notice.infra.crawler.format.NoticeDetails;
 import org.cathori.backend.notice.infra.crawler.format.NoticeRow;
 import org.cathori.backend.notice.infra.crawler.source.DepartmentSource;

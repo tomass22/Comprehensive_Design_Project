@@ -1,12 +1,12 @@
 package org.cathori.backend.notice.infra;
 
 import lombok.RequiredArgsConstructor;
-import org.cathori.backend.notice.application.BookmarkedNoticeQuery;
-import org.cathori.backend.notice.application.NoticeFeedPort;
-import org.cathori.backend.notice.application.NoticeFeedQuery;
-import org.cathori.backend.notice.application.NoticeRow;
-import org.cathori.backend.notice.application.NoticeSearchQuery;
-import org.cathori.backend.notice.application.NoticeSearchRow;
+import org.cathori.backend.notice.application.query.BookmarkedNoticeQuery;
+import org.cathori.backend.notice.application.query.NoticeFeedPort;
+import org.cathori.backend.notice.application.query.NoticeFeedQuery;
+import org.cathori.backend.notice.application.query.NoticeRow;
+import org.cathori.backend.notice.application.query.NoticeSearchQuery;
+import org.cathori.backend.notice.application.query.NoticeSearchRow;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

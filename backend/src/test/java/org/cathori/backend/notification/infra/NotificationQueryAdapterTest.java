@@ -3,7 +3,7 @@ package org.cathori.backend.notification.infra;
 import org.cathori.backend.IntegrationTestBase;
 import org.cathori.backend.notification.application.inbox.NotificationQueryPort;
 import org.cathori.backend.notification.application.inbox.NotificationRow;
-import org.cathori.backend.notice.application.CrawledNotice;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
 import org.cathori.backend.notice.model.Notice;
 import org.cathori.backend.notice.model.NoticeRepository;
 import org.cathori.backend.user.application.NotificationPort;

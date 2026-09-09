@@ -4,7 +4,7 @@ import org.cathori.backend.IntegrationTestBase;
 import org.cathori.backend.notification.application.push.*;
 import org.cathori.backend.notification.domain.AlertHistory;
 import org.cathori.backend.notification.infra.AlertHistoryJpaRepository;
-import org.cathori.backend.notice.application.CrawledNotice;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
 import org.cathori.backend.notice.infra.crawler.source.DepartmentSource;
 import org.cathori.backend.notice.model.Notice;
 import org.cathori.backend.notice.model.NoticeRepository;

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.cathori.backend.bookmark.api.dto.BookmarkToggleResponse;
 import org.cathori.backend.bookmark.application.BookmarkService;
 import org.cathori.backend.notice.api.dto.NoticeFeedResponse;
-import org.cathori.backend.notice.application.NoticeFeedService;
+import org.cathori.backend.notice.application.query.NoticeFeedService;
 import org.cathori.backend.security.CustomUserDetails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

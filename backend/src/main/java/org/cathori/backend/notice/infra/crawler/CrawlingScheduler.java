@@ -2,8 +2,8 @@ package org.cathori.backend.notice.infra.crawler;
 
 import java.util.List;
 
-import org.cathori.backend.notice.application.CrawledNotice;
-import org.cathori.backend.notice.application.NoticeService;
+import org.cathori.backend.notice.application.crawling.CrawledNotice;
+import org.cathori.backend.notice.application.crawling.NoticeService;
 import org.cathori.backend.notice.infra.crawler.source.DepartmentSource;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

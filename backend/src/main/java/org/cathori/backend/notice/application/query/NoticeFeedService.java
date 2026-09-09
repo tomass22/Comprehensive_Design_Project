@@ -1,8 +1,9 @@
-package org.cathori.backend.notice.application;
+package org.cathori.backend.notice.application.query;
 
 import lombok.RequiredArgsConstructor;
 import org.cathori.backend.bookmark.infra.BookmarkJpaRepository;
 import org.cathori.backend.common.exception.BusinessException;
+import org.cathori.backend.notice.application.*;
 import org.cathori.backend.tag.domain.Tag;
 import org.cathori.backend.tag.domain.TagRepository;
 import org.cathori.backend.notice.api.dto.NoticeFeedItem;
