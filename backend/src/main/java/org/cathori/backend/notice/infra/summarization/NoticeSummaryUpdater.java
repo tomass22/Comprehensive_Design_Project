@@ -1,7 +1,6 @@
-package org.cathori.backend.notice.infra;
+package org.cathori.backend.notice.infra.summarization;
 
 import lombok.RequiredArgsConstructor;
-import org.cathori.backend.notice.infra.ai.AiSummaryResult;
 import org.cathori.backend.notice.model.Notice;
 import org.cathori.backend.notice.model.NoticeRepository;
 import org.springframework.stereotype.Component;

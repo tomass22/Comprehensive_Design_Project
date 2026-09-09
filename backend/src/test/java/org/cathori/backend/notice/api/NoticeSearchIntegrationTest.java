@@ -2,7 +2,7 @@ package org.cathori.backend.notice.api;
 
 import org.cathori.backend.IntegrationTestBase;
 import org.cathori.backend.notice.application.crawling.CrawledNotice;
-import org.cathori.backend.notice.infra.ai.AiSummaryResult;
+import org.cathori.backend.notice.infra.summarization.AiSummaryResult;
 import org.cathori.backend.notice.model.Notice;
 import org.cathori.backend.notice.model.NoticeRepository;
 import org.cathori.backend.security.JwtUtil;

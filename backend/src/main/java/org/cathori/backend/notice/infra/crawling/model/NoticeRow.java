@@ -1,4 +1,4 @@
-package org.cathori.backend.notice.infra.crawler.format;
+package org.cathori.backend.notice.infra.crawling.model;
 
 /***
  * 공지 목록 페이지에서

@@ -4,7 +4,7 @@ import org.cathori.backend.IntegrationTestBase;
 import org.cathori.backend.bookmark.domain.Bookmark;
 import org.cathori.backend.bookmark.infra.BookmarkJpaRepository;
 import org.cathori.backend.notice.application.crawling.CrawledNotice;
-import org.cathori.backend.notice.infra.ai.AiSummaryResult;
+import org.cathori.backend.notice.infra.summarization.AiSummaryResult;
 import org.cathori.backend.notice.model.Notice;
 import org.cathori.backend.notice.model.NoticeRepository;
 import org.cathori.backend.security.JwtUtil;

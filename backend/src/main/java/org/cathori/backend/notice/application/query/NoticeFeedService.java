@@ -16,7 +16,7 @@ import org.cathori.backend.notice.model.NoticeRepository;
 import org.cathori.backend.user.UserErrorCode;
 import org.cathori.backend.user.domain.User;
 import org.cathori.backend.user.domain.UserRepository;
-import org.cathori.backend.notice.infra.crawler.source.DepartmentSource;
+import org.cathori.backend.notice.infra.crawling.source.DepartmentSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
