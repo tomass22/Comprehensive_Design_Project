@@ -28,14 +28,14 @@ public class CrawlingScheduler {
 
     @Scheduled(cron = "${crawler.dispatch.cron}")
     public void scheduleCrawling() {
-        log.info("크롤링 시작");
+        log.info("스케줄러 시작\n");
         int total = 0;
-
 
         List<CrawledNotice> mainList = noticeService.crawl("MAIN", null);
         List<Long> mainIds = noticeService.save(mainList);
         noticeService.summarize(mainIds);
         total += mainList.size();
+        log.info("MAIN 신규 공지 개수 {}\n",mainList.size());
 
         for (DepartmentSource department : DepartmentSource.values()) {
             try {
@@ -43,11 +43,13 @@ public class CrawlingScheduler {
                 List<Long> deptIds = noticeService.save(deptList);
                 noticeService.summarize(deptIds);
                 total += deptList.size();
+                log.info("{}의 신규 공지 개수 : {}\n", department.getDisplayName(), deptList.size());
+
             } catch (Exception e) {
-                log.warn("학과 크롤링 실패, 스킵: {} - {}", department.getDisplayName(), e.getMessage());
+                log.warn(department.getDisplayName() + "수집 실패, 스킵: {} - {}", department.getDisplayName(), e.getMessage());
             }
         }
 
-        log.info("크롤링 완료. 총 수집 건수: {}", total);
+        log.info("크롤링 완료. 총 신규 공지: {}", total);
     }
 }

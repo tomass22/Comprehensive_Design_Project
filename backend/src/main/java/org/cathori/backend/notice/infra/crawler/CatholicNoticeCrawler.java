@@ -46,10 +46,11 @@ public class CatholicNoticeCrawler implements CrawlerPort {
         Set<String> seenArticleNo = new HashSet<>();
 
         for (int page = 1; page <= MAX_LIST_PAGES; page++) {
-            Elements rows = fetchListRows(targetUrl, sourceType, sourceId, page);
+            String pageUrl = page == 1 ? targetUrl : buildPageUrl(targetUrl, page);
+            Elements rows = fetchListRows(pageUrl, sourceId, page);
             if (rows == null) break;
 
-            collectCandidatesFromRows(rows, targetUrl, seenArticleNo, result);
+            collectCandidatesFromRows(rows, targetUrl, pageUrl, seenArticleNo, result);
         }
 
         return result;
@@ -90,19 +91,16 @@ public class CatholicNoticeCrawler implements CrawlerPort {
      * 그 이상이면 article.offset 파라미터를 붙여 다음 페이지를 요청한다.
      * 요청 실패 시 null 반환.
      *
-     * @param targetUrl  공지 목록 페이지 기본 URL
-     * @param sourceType 공지 출처 유형
+     * @param pageUrl    조회할 페이지의 완성된 URL
      * @param sourceId   학과 코드 또는 null
      * @param page       조회할 페이지 번호 (1부터 시작)
      * @return tr 요소 목록. 요청 실패 시 null
      */
-    private Elements fetchListRows(String targetUrl, String sourceType, String sourceId, int page) {
-        String pageUrl = page == 1 ? targetUrl : buildPageUrl(targetUrl, page);
-
+    private Elements fetchListRows(String pageUrl,String sourceId, int page) {
         try {
             Document targetPageDoc = Jsoup.connect(pageUrl).get();
-            log.info("HTML 수신 성공 - sourceType: {}, sourceId: {}, page: {}, 길이: {}",
-                    sourceType, sourceId, page, targetPageDoc.html().length());
+            log.info("크롤링 시작 - sourceId: {}, pageURL: {}",
+                     sourceId,pageUrl);
             return targetPageDoc.select("table tbody tr");
         } catch (IOException e) {
             log.warn("크롤링 연결 실패 (page={}): {}", page, e.getMessage());
@@ -127,7 +125,7 @@ public class CatholicNoticeCrawler implements CrawlerPort {
      * 목록 페이지의 tr 행들을 파싱해 공지 후보를 result에 추가한다.
      * 이미 같은 크롤링 실행 안에서 본 articleNo(예: 상단 고정 공지 중복 노출)는 건너뛴다.
      */
-    private void collectCandidatesFromRows(Elements rows, String targetUrl,
+    private void collectCandidatesFromRows(Elements rows, String targetUrl, String pageUrl,
                                             Set<String> seenArticleNo, List<NoticeCandidate> result) {
         for (Element row : rows) {
             try {
@@ -143,8 +141,9 @@ public class CatholicNoticeCrawler implements CrawlerPort {
                         .postedAt(parsed.postedAt())
                         .detailUrl(parsed.noticeDetailsUrl())
                         .build());
+                log.info("파싱 성공 {}", parsed.title());
             } catch (Exception e) {
-                log.warn("공지 파싱 실패 (스킵): {}", e.getMessage());
+                log.warn("파싱 실패: {}", pageUrl);
             }
         }
     }
